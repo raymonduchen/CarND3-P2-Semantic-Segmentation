@@ -22,9 +22,9 @@ image_shape = (160, 576)
 data_dir = './data'
 runs_dir = './runs'
 # Hyperparameters
-epochs = 11             # 11, 21, 31
+epochs = 41             # 11, 21, 31, 41
 batch_size = 10          # 5
-keep_prob_value = 0.5   # 0.5, 0.7 Not dropout
+keep_prob_value = 0.5   
 learning_rate_value = 0.0001  
 
 def load_vgg(sess, vgg_path):
@@ -54,7 +54,7 @@ def load_vgg(sess, vgg_path):
     layer_7 = graph.get_tensor_by_name(vgg_layer7_out_tensor_name)
     
     return input, keep_prob, layer_3, layer_4, layer_7
-    #return None, None, None, None, None
+
 print("TEST_LOAD_VGG : -----")
 tests.test_load_vgg(load_vgg, tf)
 
@@ -108,22 +108,6 @@ def layers(vgg_layer3_out, vgg_layer4_out, vgg_layer7_out, num_classes):
                                 name='upsample3_x8')    
 
     return upsample3_x8
-
-'''
-    ## where we making FCNN   (decoder)
-        #1x1 convolution [downsample]
-    conv_1x1 = tf.layers.conv2d(vgg_layer7_out, num_classes, 1, padding='same', 
-                                kernel_regularizer=tf.contrib.layers.l2_regularizer(1e-3))
-
-        #deconvolution [transepose]
-    output = tf.layers.con2d_transpoe(con_1x1, num_classes, 4, 2, padding='same',
-                                        kernel_regularizer=tf.contrib.layers.l2_regularizer(1e-3))
-        #skip connection
-
-
-    #tf.Print(output, [tf.shape(output)[1:3]])
-    return None
-'''
 
 print("TEST_LAYERS : -----")
 tests.test_layers(layers)
